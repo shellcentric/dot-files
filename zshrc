@@ -33,17 +33,17 @@ fpath=(/usr/local/share/zsh-completions "$HOME/var/zsh-completions" $fpath)
 
 # Syntax and suggestions 
 if [[ "$OSTYPE" == darwin* ]]; then
-	file='/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
-	[ -h "$file" ] && . "$file"
+    file='/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
+    [ -h "$file" ] && . "$file"
 
-	file='/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh'
-	[ -h "$file" ] && . "$file"
+    file='/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh'
+    [ -h "$file" ] && . "$file"
 else
-	file='/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
-	[ -r "$file" ] && . "$file"
+    file='/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
+    [ -r "$file" ] && . "$file"
 
-	file='/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh'
-	[ -r "$file" ] && . "$file"
+    file='/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh'
+    [ -r "$file" ] && . "$file"
 fi
 
 unset file
@@ -57,15 +57,15 @@ if [[ "$OSTYPE" == darwin* ]]; then
     alias locate='mdfind -name'
     alias sleepn='caffeinate -dims &'
     alias sleepy='killall caffeinate'
-	alias ls='ls -F'
-	alias l='ls'
-	alias ll='ls -lh'
-	alias la='ls -A'
-	alias lla='ll -A'
-	alias lls='ll -S'
-	alias llt='ll -t'
-	alias lltr='ll -tr'
-	alias llz='ll -Z'
+    alias ls='ls -F'
+    alias l='ls'
+    alias ll='ls -lh'
+    alias la='ls -A'
+    alias lla='ll -A'
+    alias lls='ll -S'
+    alias llt='ll -t'
+    alias lltr='ll -tr'
+    alias llz='ll -Z'
 
     [ -h '/usr/local/bin/lftp' ] && alias ftp='/usr/local/bin/lftp'
     [ -h '/usr/local/sbin/mtr' ] && alias pathping='/usr/local/sbin/mtr'
@@ -73,15 +73,15 @@ if [[ "$OSTYPE" == darwin* ]]; then
     [ -h '/usr/local/bin/gtac' ] && alias last='last | /usr/local/bin/gtac'
     [ -x '/usr/bin/xcrun'      ] && alias swiftc='/usr/bin/xcrun -sdk macosx /usr/bin/swiftc'
 else
-	alias ls='ls -group-directories-first --color=auto -p'
-	alias l='ls'
-	alias ll='ls -lh'
-	alias la='ls -A'
-	alias lla='ll -A'
-	alias lls='ll -S'
-	alias llt='ll -t'
-	alias lltr='ll -tr'
-	alias llz='ll -Z'
+    alias ls='ls -group-directories-first --color=auto -p'
+    alias l='ls'
+    alias ll='ls -lh'
+    alias la='ls -A'
+    alias lla='ll -A'
+    alias lls='ll -S'
+    alias llt='ll -t'
+    alias lltr='ll -tr'
+    alias llz='ll -Z'
 fi
 
 alias less='less -Fr'
@@ -128,224 +128,224 @@ fi
 # Functions
 #
 if [[ "$OSTYPE" == darwin* ]]; then
-	cookies()   { printf 'Finding new cookie files...\n'; km -f; }
-	getsn()     { ioreg -c IOPlatformExpertDevice -d 2 | awk -F\" '/IOPlatformSerialNumber/{print $(NF-1)}'; }
-	listjobs()  { launchctl list | grep "$(hostname)"; }
-	mand()      { open dash://manpages:"$1"; }
-	manp()      { man -t "$@" | open -f -a Preview; }
-	rmmeta()    { xattr -c "$1"; }
-	mkramdisk() {
-		if [ -z "$1" ]; then
-        	printf 'Error: function requires a positive integer argument representing megabytes\n'
-	    elif [ "$1" -ge 0 ] 2>/dev/null; then
-	    	size=$(( 2048 * "$1" ))
-			diskutil erasevolume HFS+ "RamDisk" $(hdiutil attach -nomount ram://"$size")
-		else
-        	printf 'Error: function requires a positive integer argument representing megabytes\n'
-		fi
-	}
+    cookies()   { printf 'Finding new cookie files...\n'; km -f; }
+    getsn()     { ioreg -c IOPlatformExpertDevice -d 2 | awk -F\" '/IOPlatformSerialNumber/{print $(NF-1)}'; }
+    listjobs()  { launchctl list | grep "$(hostname)"; }
+    mand()      { open dash://manpages:"$1"; }
+    manp()      { man -t "$@" | open -f -a Preview; }
+    rmmeta()    { xattr -c "$1"; }
+    mkramdisk() {
+        if [ -z "$1" ]; then
+            printf 'Error: function requires a positive integer argument representing megabytes\n'
+        elif [ "$1" -ge 0 ] 2>/dev/null; then
+            size=$(( 2048 * "$1" ))
+            diskutil erasevolume HFS+ "RamDisk" $(hdiutil attach -nomount ram://"$size")
+        else
+            printf 'Error: function requires a positive integer argument representing megabytes\n'
+        fi
+    }
 
-	t() {
-	    if [ -z "$1" ]; then
-	        printf 'Error: function requires an argument\n'
-	    else
-	        grep "$1" /usr/local/etc/mybase.txt >/dev/null
-	        exit_code="$?"
+    t() {
+        if [ -z "$1" ]; then
+            printf 'Error: function requires an argument\n'
+        else
+            grep "$1" /usr/local/etc/mybase.txt >/dev/null
+            exit_code="$?"
 
-	        if [ "$exit_code" -eq 0 ]; then
-	            printf 'No. Do not trust this host or domain.\n'
-	        else
-	            printf 'Yes. Trust this host or domain.\n'
-	        fi
-	    fi
-	}
+            if [ "$exit_code" -eq 0 ]; then
+                printf 'No. Do not trust this host or domain.\n'
+            else
+                printf 'Yes. Trust this host or domain.\n'
+            fi
+        fi
+    }
 
-	asltail() {
-	    /usr/bin/log stream --info --debug --predicate "process == 'syslog'" \
-	        --predicate "process == 'logger'" \
-	        --predicate "process == 'blowhole'"
-	        --style syslog
-	}
+    asltail() {
+        /usr/bin/log stream --info --debug --predicate "process == 'syslog'" \
+            --predicate "process == 'logger'" \
+            --predicate "process == 'blowhole'"
+            --style syslog
+    }
 
-	aslgrep() {
-	    if [ -z "$1" ]; then
-	        printf 'Error: function requires an argument\n'
-	    else
-	        /usr/bin/log show --info --debug --predicate "process == 'syslog'" \
-	            --predicate "process == 'logger'" \
-	            --predicate "process == 'blowhole'" \
-	            --predicate "eventMessage contains '$1'"
-	            --style syslog
-	    fi
-	}
+    aslgrep() {
+        if [ -z "$1" ]; then
+            printf 'Error: function requires an argument\n'
+        else
+            /usr/bin/log show --info --debug --predicate "process == 'syslog'" \
+                --predicate "process == 'logger'" \
+                --predicate "process == 'blowhole'" \
+                --predicate "eventMessage contains '$1'"
+                --style syslog
+        fi
+    }
 
-	update_brew() {
-	    printf 'Updating and cleaning brew...\n'
+    update_brew() {
+        printf 'Updating and cleaning brew...\n'
 
-	    if brew update 2>/dev/null; then
-	        brew upgrade
-	        brew cleanup
-	        rm -rf "$(brew --cache)"
-	    fi
-	}
+        if brew update 2>/dev/null; then
+            brew upgrade
+            brew cleanup
+            rm -rf "$(brew --cache)"
+        fi
+    }
 
-	update_pyci() { python3 -m pip install --user --upgrade pip; python3 -m pip install --user -qU CodeIntel; }
+    update_pyci() { python3 -m pip install --user --upgrade pip; python3 -m pip install --user -qU CodeIntel; }
 
-	update_blacklist() {
-		src='https://download.dnscrypt.info/blacklists/domains/mybase.txt'
-	    dst='/usr/local/etc/mybase.txt'
+    update_blacklist() {
+        src='https://download.dnscrypt.info/blacklists/domains/mybase.txt'
+        dst='/usr/local/etc/mybase.txt'
 
-	    wget -qO "$dst" "$src" > /dev/null 2>&1
-	    exit_code="$?"
+        wget -qO "$dst" "$src" > /dev/null 2>&1
+        exit_code="$?"
 
-	    if [ "$exit_code" -eq 0 ]; then
-	        printf 'Updated list of banned domains. Restarting daemon...\n'
-	        sudo brew services restart unbound
-	    else
-	        printf 'Error downloading list of banned domains.\n'
-	    fi
-	}
+        if [ "$exit_code" -eq 0 ]; then
+            printf 'Updated list of banned domains. Restarting daemon...\n'
+            sudo brew services restart unbound
+        else
+            printf 'Error downloading list of banned domains.\n'
+        fi
+    }
 
-	update_repos() {
-	    printf 'Updating repositories...\n'
-	    if cd "$HOME/src/repos/bible_databases"; then
-	        git pull origin master
-	    fi
+    update_repos() {
+        printf 'Updating repositories...\n'
+        if cd "$HOME/src/repos/bible_databases"; then
+            git pull origin master
+        fi
 
-	    if cd "$HOME/src/repos/ide-stubs"; then
-	        git pull origin master
-	    fi
-	}
+        if cd "$HOME/src/repos/ide-stubs"; then
+            git pull origin master
+        fi
+    }
 
-	update_bundles() {
-	    dir="$HOME/src/websites/shellcentric.com"
+    update_bundles() {
+        dir="$HOME/src/websites/shellcentric.com"
 
-	    printf 'Updating bundles for shellcentric.com...\n'
-	    
-	    if [ -d "$dir" ]; then
-	        cd "$dir"
-	        bundle update > /dev/null 2>&1
-	        exit_code="$?"
+        printf 'Updating bundles for shellcentric.com...\n'
+        
+        if [ -d "$dir" ]; then
+            cd "$dir"
+            bundle update > /dev/null 2>&1
+            exit_code="$?"
 
-	        if [ "$exit_code" -eq 0 ]; then
-	            printf 'Bundle update success: shellcentric.com.\n'
-	        else
-	            printf 'Bundle update failure: shellcentric.com. Exit code: %s\n' "$exit_code"
-	        fi
-	    else
-	        printf 'Directory does not exist: %s.\n' "$dir"
-	    fi
-	}
+            if [ "$exit_code" -eq 0 ]; then
+                printf 'Bundle update success: shellcentric.com.\n'
+            else
+                printf 'Bundle update failure: shellcentric.com. Exit code: %s\n' "$exit_code"
+            fi
+        else
+            printf 'Directory does not exist: %s.\n' "$dir"
+        fi
+    }
 
-	associations() {
-	    printf 'Removing old program associations...\n'
-	    lsregister -kill -r -domain local -domain system -domain user
-	    killall Finder
-	}
+    associations() {
+        printf 'Removing old program associations...\n'
+        lsregister -kill -r -domain local -domain system -domain user
+        killall Finder
+    }
 
-	rm_thumbnails() {
-	    printf 'Removing thumbnail cache...\n'
-	    target="$TMPDIR/../C/com.apple.QuickLook.thumbnailcache"
-	    [ -d "$target" ] && rm -rf "$target"
-	}
+    rm_thumbnails() {
+        printf 'Removing thumbnail cache...\n'
+        target="$TMPDIR/../C/com.apple.QuickLook.thumbnailcache"
+        [ -d "$target" ] && rm -rf "$target"
+    }
 
-	update() {
-	    silnite au
-	    update_brew
-	    update_repos
-	    update_bundles
-	    update_pyci
-	    update_blacklist
-	    update_z
-	    cookies
-	    printf 'Done.\n'
-	}
+    update() {
+        silnite au
+        update_brew
+        update_repos
+        update_bundles
+        update_pyci
+        update_blacklist
+        update_z
+        cookies
+        printf 'Done.\n'
+    }
 
-	backup() {
-	    volume='/Volumes/Backup'
+    backup() {
+        volume='/Volumes/Backup'
 
-	    (caffeinate -dims &)
+        (caffeinate -dims &)
 
-	    if [ ! -d "$volume" ]; then
-	        printf 'Backup volume is not available. Is the disk plugged in?\n'
-	    else
-	        printf 'Mirroring venus... '
-	        ping -qc 1 venus >/dev/null
-	        if [ "$?" -eq 0 ]; then
-	            if [ ! -d "$volume/venus" ]; then
-	                mkdir "$volume/venus"
-	            fi
-	            printf '\n'
-	            rsync -avzhe "root@venus:/home" "$volume/venus" --progress --delete
-	        else
-	            printf ' offline.\n'
-	        fi
+        if [ ! -d "$volume" ]; then
+            printf 'Backup volume is not available. Is the disk plugged in?\n'
+        else
+            printf 'Mirroring venus... '
+            ping -qc 1 venus >/dev/null
+            if [ "$?" -eq 0 ]; then
+                if [ ! -d "$volume/venus" ]; then
+                    mkdir "$volume/venus"
+                fi
+                printf '\n'
+                rsync -avzhe "root@venus:/home" "$volume/venus" --progress --delete
+            else
+                printf ' offline.\n'
+            fi
 
-	        printf 'Cleaning up music and downloads...\n'
-	        fdupes -Arq ~/Music | grep -E 'mp3|m4a'
-	        if [ "$?" = 0 ]; then
-	            printf '\nPlease delete any duplicate files in ~/Music from iTunes Library and disk.\n'
-	            return 0
-	        fi
+            printf 'Cleaning up music and downloads...\n'
+            fdupes -Arq ~/Music | grep -E 'mp3|m4a'
+            if [ "$?" = 0 ]; then
+                printf '\nPlease delete any duplicate files in ~/Music from iTunes Library and disk.\n'
+                return 0
+            fi
 
-	        printf 'Taking a snapshot of local sources...\n'
-	        file="$HOME/.config/restic/exclude"
-	        restic -r "$volume/restic" snapshots &>/dev/null
-	        if [ "$?" -eq 0 ]; then
-	            restic -r "$volume/restic" --verbose backup ~/         --exclude-file="$file"
-	            restic -r "$volume/restic" --verbose backup /usr/local --exclude-file="$file"
-	            restic -r "$volume/restic" --verbose backup /etc/hosts --exclude-file="$file"
-	            restic forget --keep-last 1 --prune
-	            diskutil unmountDisk "$volume"
-	        else
-	            printf 'Repository does not exist. The error code is %s.\n' "$exit_code"
-	        fi
+            printf 'Taking a snapshot of local sources...\n'
+            file="$HOME/.config/restic/exclude"
+            restic -r "$volume/restic" snapshots &>/dev/null
+            if [ "$?" -eq 0 ]; then
+                restic -r "$volume/restic" --verbose backup ~/         --exclude-file="$file"
+                restic -r "$volume/restic" --verbose backup /usr/local --exclude-file="$file"
+                restic -r "$volume/restic" --verbose backup /etc/hosts --exclude-file="$file"
+                restic forget --keep-last 1 --prune
+                diskutil unmountDisk "$volume"
+            else
+                printf 'Repository does not exist. The error code is %s.\n' "$exit_code"
+            fi
 
-	    fi
+        fi
 
-	    restic cache --cleanup
-	    killall caffeinate
-	}
+        restic cache --cleanup
+        killall caffeinate
+    }
 
-	brepos() {
-	    restic -r "$RESTIC_REPOSITORY" snapshots --group-by host
-	}
+    brepos() {
+        restic -r "$RESTIC_REPOSITORY" snapshots --group-by host
+    }
 
-	brepoc() {
-	    restic -r "$RESTIC_REPOSITORY" check
-	}
+    brepoc() {
+        restic -r "$RESTIC_REPOSITORY" check
+    }
 
-	brepoi() {
-	    restic -r "$RESTIC_REPOSITORY" check --read-data
-	}
+    brepoi() {
+        restic -r "$RESTIC_REPOSITORY" check --read-data
+    }
 
-	restore() {
-	    if [ -z "$1" ]; then
-	        printf 'Error: function requires and argument.\n'
-	        exit 1
-	    fi
+    restore() {
+        if [ -z "$1" ]; then
+            printf 'Error: function requires and argument.\n'
+            exit 1
+        fi
 
-	    f="$1"
-	    restic -r "$RESTIC_REPOSITORY" restore latest --target "$HOME/tmp" --path "$HOME" --include "$f"
-	}
+        f="$1"
+        restic -r "$RESTIC_REPOSITORY" restore latest --target "$HOME/tmp" --path "$HOME" --include "$f"
+    }
 else
-	mkramdisk() {
-		if [ -z "$1" ]; then
-        	printf 'Error: function requires a positive integer argument representing megabytes\n'
-	    elif [ "$1" -ge 0 ] 2>/dev/null; then
-	    	dir='/tmp/ramdisk'
-	    	user="$(id -u)"
-	    	group="$(id -g)"
-	    	size=$(( 1048576 * "$1" ))
+    mkramdisk() {
+        if [ -z "$1" ]; then
+            printf 'Error: function requires a positive integer argument representing megabytes\n'
+        elif [ "$1" -ge 0 ] 2>/dev/null; then
+            dir='/tmp/ramdisk'
+            user="$(id -u)"
+            group="$(id -g)"
+            size=$(( 1048576 * "$1" ))
 
-			mkdir "$dir"
-			sudo mount -t tmpfs -o size="$size" ramdisk /tmp/ramdisk
-			sudo chown "$user":"$group" "$dir"
-			sudo chmod 0700 "$dir"
-		else
-        	printf 'Error: function requires a positive integer argument representing megabytes\n'
-		fi
-	}
+            mkdir "$dir"
+            sudo mount -t tmpfs -o size="$size" ramdisk /tmp/ramdisk
+            sudo chown "$user":"$group" "$dir"
+            sudo chmod 0700 "$dir"
+        else
+            printf 'Error: function requires a positive integer argument representing megabytes\n'
+        fi
+    }
 fi
 
 calc()      { bc -l <<< "$@"; }
@@ -359,10 +359,10 @@ clearmsg()  {
 
     clear
 
-	if [[ "$OSTYPE" == darwin* ]]; then
-    	ipa=$(ipconfig getifaddr en0)
+    if [[ "$OSTYPE" == darwin* ]]; then
+        ipa=$(ipconfig getifaddr en0)
     else
-    	ipa="$(hostname -I)"
+        ipa="$(hostname -I)"
     fi
     if [ -n "$ipa" ]; then
         msg=$(colorout 50 215 0 0 0 0 "$ipa")
@@ -372,7 +372,7 @@ clearmsg()  {
         printf ' Local IPA: %s\n' "$msg"
     fi
 
-	ipa=$(curl -s api.infoip.io/ip 2>/dev/null)
+    ipa=$(curl -s api.infoip.io/ip 2>/dev/null)
     if [ -n "$ipa" ]; then
         msg=$(colorout 50 215 0 0 0 0 "$ipa")
         printf 'Remote IPA: %s\n' "$msg"
@@ -388,18 +388,18 @@ clearmsg()  {
     done
     printf '%s\n' "$msg"
 
-	if [[ "$OSTYPE" == darwin* ]]; then
-    	if pgrep dnscrypt-proxy >/dev/null; then
-        	msg=$(colorout 50 215 0 0 0 0 'running')
-        	printf '  DNSCrypt: %s\n' "$msg"
-    	else
-        	msg=$(colorout 247 215 0 0 0 0 'not running')
-        	printf '  DNSCrypt: %s\n' "$msg"
-    	fi
+    if [[ "$OSTYPE" == darwin* ]]; then
+        if pgrep dnscrypt-proxy >/dev/null; then
+            msg=$(colorout 50 215 0 0 0 0 'running')
+            printf '  DNSCrypt: %s\n' "$msg"
+        else
+            msg=$(colorout 247 215 0 0 0 0 'not running')
+            printf '  DNSCrypt: %s\n' "$msg"
+        fi
 
-    	jobs=$(launchctl list | grep david | awk -v ORS=' ' -F '.' '{ print $3 }')
-    	msg=$(colorout 75 75 75 0 0 0 "$jobs")
-    	printf 'Periodical: %s\n' "$msg"
+        jobs=$(launchctl list | grep david | awk -v ORS=' ' -F '.' '{ print $3 }')
+        msg=$(colorout 75 75 75 0 0 0 "$jobs")
+        printf 'Periodical: %s\n' "$msg"
     fi
 }
 
@@ -408,7 +408,7 @@ clearmsg()  {
 # Execute statements in background only if STDERR is bound to a TTY.
 # -t fd: true if file descriptor is open and associated with a terminal device.
 [[ -t 2 ]] && {
-	compinit
+    compinit
     # >& int: stdio is duplicated from file descriptor number.
 } >&2
 
