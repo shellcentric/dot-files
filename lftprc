@@ -1,0 +1,5 @@
+set cmd:save-cwd-history no                                               ▐▌
+set cmd:save-rl-history no                                                ▐▌
+set xfer:log no
+
+
