@@ -372,7 +372,7 @@ clearmsg()  {
         printf ' Local IPA: %s\n' "$msg"
     fi
 
-    ipa=$(curl -s api.infoip.io/ip 2>/dev/null)
+    ipa=$(< "$HOME/.ipa")
     if [ -n "$ipa" ]; then
         msg=$(colorout 50 215 0 0 0 0 "$ipa")
         printf 'Remote IPA: %s\n' "$msg"
