@@ -133,6 +133,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
     listjobs()  { launchctl list | grep "$(hostname)"; }
     mand()      { open dash://manpages:"$1"; }
     manp()      { man -t "$@" | open -f -a Preview; }
+    ripa()      { curl -s api.infoip.io/ip 2>/dev/null > "$HOME/.ipa"; }
     rmmeta()    { xattr -c "$1"; }
     mkramdisk() {
         if [ -z "$1" ]; then
