@@ -11,8 +11,7 @@ path=(
     /usr/local/opt/ruby/bin
     $HOME/bin
     $HOME/.gem/ruby/2.7.0/bin
-    $HOME/Library/Python/3.7/bin
-    $HOME/Library/Python/3.8/bin
+    $HOME/Library/Python/3.9/bin
     $path
 )
 
