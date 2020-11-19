@@ -202,7 +202,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
         if [ "$exit_code" -eq 0 ]; then
             printf 'Updated list of banned domains. Restarting daemon...\n'
-            sudo brew services restart unbound
+            sudo brew services restart dnscrypt-proxy
         else
             printf 'Error downloading list of banned domains.\n'
         fi
