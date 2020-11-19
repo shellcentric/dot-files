@@ -52,6 +52,7 @@ unset file
 # Aliases 
 #
 if [[ "$OSTYPE" == darwin* ]]; then
+    alias brew='arch -x86_64 brew'
     alias c='clearmsg'
     alias edit='subl'
     alias locate='mdfind -name'
