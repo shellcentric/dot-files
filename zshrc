@@ -419,3 +419,7 @@ clearmsg()  {
 #
 [ -f "$HOME/.p10k.zsh" ] && . "$HOME/.p10k.zsh"
 
+# Disable gitstatusd because a binary does not exist for M1 CPU.
+# https://github.com/romkatv/gitstatus/issues/73
+POWERLEVEL9K_DISABLE_GITSTATUS=true
+
