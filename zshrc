@@ -423,3 +423,14 @@ clearmsg()  {
 # https://github.com/romkatv/gitstatus/issues/73
 POWERLEVEL9K_DISABLE_GITSTATUS=true
 
+# Set the list of directories that Zsh searches for programs.
+path=(
+    /usr/local/bin
+    /usr/local/sbin
+    /usr/local/opt/ruby/bin
+    $HOME/bin
+    $HOME/.gem/ruby/2.7.0/bin
+    $HOME/Library/Python/3.9/bin
+    $path
+)
+

@@ -1,28 +1,10 @@
-# Ensure that a non-login, non-interactive shell has a defined environment.
-if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
-    . "${ZDOTDIR:-$HOME}/.zprofile"
-fi
-
 [ -z "$LANG" ] && export LANG='en_US.UTF-8'
-
-# Set the list of directories that Zsh searches for programs.
-path=(
-    /usr/local/{bin,sbin}
-    /usr/local/opt/ruby/bin
-    $HOME/bin
-    $HOME/.gem/ruby/2.7.0/bin
-    $HOME/Library/Python/3.9/bin
-    $path
-)
-
-# Ensure path arrays do not contain duplicates.
-typeset -gU cdpath fpath mailpath path
 
 # LSCOLORS
 #
 # lowercase = normal, uppercase = bold or bright
 # aA black / bB red / cC green / dD brown / eE blue / fF magenta / gG cyan / hH grey
-# x default foreground or background
+# x = default foreground or background
 #
 # Order
 #  1. directory
@@ -32,13 +14,10 @@ typeset -gU cdpath fpath mailpath path
 #  5. executable
 #  6. block special
 #  7. character special
-#  8. executable with setuid bit set
-#  9. executable with setgid bit set
-# 10. directory writable to others, with sticky bit
-# 11. directory writable to others, without sticky bit
-#
-# Linux:
-# export LS_COLORS='di=33:ln=35:so=36:pi=34:ex=32:bd=37:cd=01;37:su=01;31:sg=31:tw=01;31:ow=31'
+#  8. executable with setuid bit
+#  9. executable with setgid bit 
+# 10. directory writable to others with sticky bit
+# 11. directory writable to others without sticky bit
 if [[ "$OSTYPE" == darwin* ]]; then
     export CLICOLOR='1'
     export LSCOLORS='dxfxgxexcxhxHxBxbxBxbx'
@@ -63,3 +42,4 @@ export VISUAL='vim'
 export PAGER='less'
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 export LESSHISTFILE="-"
+
