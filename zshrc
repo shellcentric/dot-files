@@ -273,14 +273,28 @@ if [[ "$OSTYPE" == darwin* ]]; then
         if [ ! -d "$volume" ]; then
             printf 'Backup volume is not available. Is the disk plugged in?\n'
         else
-            printf 'Mirroring venus... '
-            ping -qc 1 venus >/dev/null
+            host='venus'
+            printf "Mirroring $host..."
+            ping -qc 1 "$host" >/dev/null
             if [ "$?" -eq 0 ]; then
-                if [ ! -d "$volume/venus" ]; then
-                    mkdir "$volume/venus"
+                if [ ! -d "$volume/$host" ]; then
+                    mkdir "$volume/$host"
                 fi
                 printf '\n'
-                rsync -avzhe "root@venus:/home" "$volume/venus" --progress --delete
+                rsync -avzhe ssh "root@$host:/home" "$volume/$host" --progress --delete
+            else
+                printf ' offline.\n'
+            fi
+
+            host='miyuki'
+            printf "Mirroring $host..."
+            ping -qc 1 "$host" >/dev/null
+            if [ "$?" -eq 0 ]; then
+                if [ ! -d "$volume/$host" ]; then
+                    mkdir "$volume/$host"
+                fi
+                printf '\n'
+                rsync -avzhe ssh "root@$host:/Users" "$volume/$host" --progress --delete
             else
                 printf ' offline.\n'
             fi
