@@ -6,8 +6,10 @@
 # Execute statements in background only if STDERR is bound to a TTY.
 # -t fd: true if file descriptor is open and associated with a terminal device.
 [[ -t 2 ]] && {
-    # On macOS, always use localhost as DNS server (dnscrypt).
-   [[ "$OSTYPE" == darwin* ]] && networksetup -setdnsservers Wi-Fi 127.0.0.1
+    # On this macOS host, always use localhost as DNS server (dnscrypt).
+    if [[ "$OSTYPE" == darwin* ]] && [[ "$(hostname)" == 'c' ]]; then
+        networksetup -setdnsservers Wi-Fi 127.0.0.1
+    fi
     # >& int: stdio is duplicated from file descriptor number.
 } >&2
 
