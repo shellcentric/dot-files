@@ -25,6 +25,7 @@ autoload -Uz compinit
 umask 022
 setopt clobber
 setopt rmstarsilent
+setopt histignorespace
 
 bindkey -v
 bindkey "^U" backward-kill-line
