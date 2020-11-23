@@ -91,7 +91,6 @@ alias less='less -Fr'
 alias filetree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'"
 alias wget='wget --hsts-file /dev/null'
 alias x='exit'
-alias vmCompactWindows='VBoxManage modifymedium "$HOME/VMs/Windows/windows.vdi" --compact'
 
 ############################################################################# 
 # Aliases for Generic Colouriser (grc)
@@ -138,6 +137,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
     manp()      { man -t "$@" | open -f -a Preview; }
     ripa()      { curl -s api.infoip.io/ip 2>/dev/null > "$HOME/.ipa"; }
     rmmeta()    { xattr -c "$1"; }
+    getssid()   { /System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I  | awk -F' SSID: '  '/ SSID: / {print $2}'; }
     mkramdisk() {
         if [ -z "$1" ]; then
             printf 'Error: function requires a positive integer argument representing megabytes\n'
