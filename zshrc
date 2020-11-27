@@ -77,7 +77,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
     [ -h '/usr/local/bin/gtac' ] && alias last='last | /usr/local/bin/gtac'
     [ -x '/usr/bin/xcrun'      ] && alias swiftc='/usr/bin/xcrun -sdk macosx /usr/bin/swiftc'
 else
-    alias ls='ls -group-directories-first --color=auto -p'
+    alias ls='ls --group-directories-first --color=auto -p'
     alias l='ls'
     alias ll='ls -lh'
     alias la='ls -A'
