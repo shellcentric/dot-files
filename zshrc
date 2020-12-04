@@ -402,7 +402,7 @@ clearmsg()  {
 
     nameservers=$(grep nameserver /etc/resolv.conf | awk '{print $2}' | tr '\n' ' ')
     printf 'Resolver/s: '
-    for ns in $nameservers; do
+    for ns in "$nameservers"; do
         msg=$(colorout 55 110 229 0 0 0 "$ns ")
     done
     printf '%s\n' "$msg"
