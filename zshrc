@@ -274,6 +274,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
         if [ ! -d "$volume" ]; then
             printf 'Backup volume is not available. Is the disk plugged in?\n'
         else
+            "$HOME/bin/sync-server.sh"
+
             host='venus'
             printf "Mirroring $host..."
             ping -qc 1 "$host" >/dev/null
