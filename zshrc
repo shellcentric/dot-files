@@ -418,7 +418,7 @@ clearmsg()  {
             printf '  DNSCrypt: %s\n' "$msg"
         fi
 
-        jobs=$(launchctl list | grep david | awk -v ORS=' ' -F '.' '{ print $3 }')
+        jobs=$(launchctl list | grep 'local\.' | awk -v ORS=' ' '{ print $3 }')
         msg=$(colorout 75 75 75 0 0 0 "$jobs")
         printf 'Periodical: %s\n' "$msg"
     fi
