@@ -421,6 +421,9 @@ clearmsg()  {
         jobs=$(launchctl list | grep 'local\.' | awk -v ORS=' ' '{ print $3 }')
         msg=$(colorout 75 75 75 0 0 0 "$jobs")
         printf 'Periodical: %s\n' "$msg"
+
+        brew_completions=$(brew completions link)
+        printf 'Completion: %s\n' "$brew_completions"
     fi
 }
 
