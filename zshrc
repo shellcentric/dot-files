@@ -89,6 +89,7 @@ else
 fi
 
 alias less='less -Fr'
+alias info='pinfo'
 alias filetree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'"
 alias wget='wget --hsts-file /dev/null'
 alias x='exit'
