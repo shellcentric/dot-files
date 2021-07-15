@@ -238,6 +238,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
             else
                 printf 'Bundle update failure: shellcentric.com. Exit code: %s\n' "$exit_code"
             fi
+
+            cd "$OLDPWD"
+
         else
             printf 'Directory does not exist: %s.\n' "$dir"
         fi
