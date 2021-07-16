@@ -272,47 +272,24 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
     backup() {
         volume='/Volumes/Backup'
+        netvol="$HOME/mnt/home"
+        server='nas'
 
         (caffeinate -dims &)
 
+        printf 'Downloading remote server backups...\n'
+        "$HOME/bin/sync-server.sh"
+
+        printf 'Cleaning up music and downloads...\n'
+        fdupes -Arq ~/Music | grep -E 'mp3|m4a'
+        if [ "$?" = 0 ]; then
+            printf '\nPlease first delete any duplicate files in ~/Music from iTunes Library and disk.\n'
+            return 0
+        fi
+
         if [ ! -d "$volume" ]; then
-            printf 'Backup volume is not available. Is the disk plugged in?\n'
+            printf 'Local backup volume is not available. Is the disk plugged in?\n'
         else
-            "$HOME/bin/sync-server.sh"
-
-            host='venus'
-            printf "Mirroring $host..."
-            ping -qc 1 "$host" >/dev/null
-            if [ "$?" -eq 0 ]; then
-                if [ ! -d "$volume/$host" ]; then
-                    mkdir "$volume/$host"
-                fi
-                printf '\n'
-                rsync -avzhe ssh "root@$host:/home" "$volume/$host" --progress --delete
-            else
-                printf ' offline.\n'
-            fi
-
-            host='miyuki'
-            printf "Mirroring $host..."
-            ping -qc 1 "$host" >/dev/null
-            if [ "$?" -eq 0 ]; then
-                if [ ! -d "$volume/$host" ]; then
-                    mkdir "$volume/$host"
-                fi
-                printf '\n'
-                rsync -avzhe ssh "root@$host:/Users" "$volume/$host" --progress --delete
-            else
-                printf ' offline.\n'
-            fi
-
-            printf 'Cleaning up music and downloads...\n'
-            fdupes -Arq ~/Music | grep -E 'mp3|m4a'
-            if [ "$?" = 0 ]; then
-                printf '\nPlease delete any duplicate files in ~/Music from iTunes Library and disk.\n'
-                return 0
-            fi
-
             printf 'Taking a snapshot of local sources...\n'
             file="$HOME/.config/restic/exclude"
             restic -r "$volume/restic" snapshots &>/dev/null
@@ -321,6 +298,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
                 restic -r "$volume/restic" --verbose backup /usr/local --exclude-file="$file"
                 restic -r "$volume/restic" --verbose backup /etc/hosts --exclude-file="$file"
                 restic forget --keep-last 1 --prune
+                restic cache --cleanup
                 diskutil unmountDisk "$volume"
             else
                 printf 'Repository does not exist. The error code is %s.\n' "$exit_code"
@@ -328,7 +306,36 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
         fi
 
-        restic cache --cleanup
+        ping -qc 1 "$server" >/dev/null
+        if [ "$?" -eq 0 ]; then
+            if [ ! -d "$netvol" ]; then
+                mkdir -p "$netvol"
+            fi
+
+            if [ ! -d "$netvol/backup" ]; then
+                uid=$(id -u)
+                gid=$(dscl . -read /Groups/users | awk '($1 == "PrimaryGroupID:") { print $2 }')
+                sshfs -o idmap=user -o uid="$uid" -o gid="$gid" nas:/home "$HOME/mnt/home"
+
+                if [ "$?" -ne 0 ]; then
+                    printf 'Mounting server directory via SSHFS failed.\n'
+                elif [ -f "$netvol/backup/.smartbackup.conf" ]; then
+                    "$HOME/Applications/SmartBackup.app/Contents/MacOS/SmartBackup" "$netvol/backup"
+
+                    if [ "$?" -eq 0 ]; then
+                        printf 'The network backup completed successfully.\n'
+                    else
+                        printf 'The network backup failed with exit code, %s.\n' "$?"
+                    fi
+                    umount "$netvol"
+                fi
+            else
+                printf 'The network backup directory could not be found.\n'
+            fi
+        else
+            printf 'The server, %s, cannot be reached.\n' "$server"
+        fi
+
         killall caffeinate
     }
 
